@@ -1,4 +1,7 @@
 from django.test import TestCase
+from rest_framework.test import APITestCase
+from django.contrib.auth.models import Group
+from apps.users.models import User
 from .models import Product
 
 
@@ -35,3 +38,45 @@ class ProductModelTest(TestCase):
         product.sku = sku_custom
         product.save()
         self.assertEqual(product.sku, sku_custom)
+
+
+class ProductApiTest(APITestCase):
+    def create_user(self):
+        group = Group.objects.create(name='admin')
+        user = User.objects.create_user(username='admin', password='peru2022')
+        group.user_set.add(user)
+
+    def setUp(self):
+        self.create_user()
+        login = {
+            "username": "admin",
+            "password": "peru2022"
+        }
+        response = self.client.post('/api/v1/auth/sign-in/', data=login)
+        self.token = response.data['token']
+
+    def test_create_product(self):
+        product_data = {
+          "name": "celular",
+          "price": 180,
+          "brand": "xiaomi"
+        }
+        response = self.client.post('/api/v1/products/', data=product_data, HTTP_AUTHORIZATION=f'Bearer {self.token}')
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data.get("name"), product_data.get("name"))
+        self.assertEqual(response.data.get("price"), product_data.get("price"))
+        self.assertEqual(response.data.get("brand"), product_data.get("brand"))
+
+    def test_get_detail_product(self):
+        product_data = {
+            "name": "celular",
+            "price": 180,
+            "brand": "xiaomi"
+        }
+        product = Product.objects.create(**product_data)
+        product_data["sku"] = product.sku
+        response = self.client.get(
+            f'/api/v1/products/{product.sku}/',
+            HTTP_AUTHORIZATION=f'Bearer {self.token}'
+        )
+        self.assertEqual(response.data, product_data)
