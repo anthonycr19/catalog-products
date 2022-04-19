@@ -49,3 +49,19 @@ class Product(models.Model):
         """generate random sku only create"""
         if self._state.adding:
             self.sku = create_ramdom_string(length=self.SKU_LENGTH)
+
+
+class LogUserReadProduct(models.Model):
+    product = models.ForeignKey(
+        Product,
+        models.CASCADE,
+        verbose_name=_('product')
+    )
+    date_created = models.DateTimeField(_('date created'), auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Log user read product')
+        verbose_name_plural = _('Logs users read products')
+
+    def __str__(self):
+        return f'{self.product.name} visto el {self.date_created.strftime("%m/%d/%Y, %H:%M:%S")}'
