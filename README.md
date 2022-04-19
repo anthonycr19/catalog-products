@@ -40,6 +40,16 @@ from django.core.management.utils import get_random_secret_key
 get_random_secret_key()
 ```
 
+#### Cargar fixture
+```
+python manage.py loaddata ../fixtures/initial.json --settings=<django_project>.settings.local
+```
+#### Crear las tablas en nuestra BD de nuestras apps
+```
+python manage.py makemigrations --settings=<django_project>.settings.local
+python manage.py migrate --settings=<django_project>.settings.local
+```
+
 #### Iniciar proyecto
 
 * Ejecutar servidor de prueba
