@@ -41,3 +41,10 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'  # noqa: F405
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'  # noqa: F405
+
+EMAIL_BACKEND = env("EMAIL_BACKEND")  # noqa: F405
+EMAIL_HOST = env("EMAIL_HOST")  # noqa: F405
+EMAIL_PORT = env("EMAIL_PORT")  # noqa: F405
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS")  # noqa: F405
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")  # noqa: F405
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")  # noqa: F405
