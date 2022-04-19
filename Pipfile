@@ -1,0 +1,24 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+flake8 = "*"
+
+[packages]
+django = "<4"
+pillow = "*"
+django-environ = "*"
+dj-database-url = "*"
+djangorestframework = "*"
+django-cors-headers = "*"
+django-filter = "*"
+djangorestframework-camel-case = "*"
+markdown = "*"
+drf-yasg = "*"
+djangorestframework-jwt = "*"
+django-crum = "*"
+
+[requires]
+python_version = "3"
